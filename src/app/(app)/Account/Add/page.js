@@ -58,13 +58,40 @@ function Page(props) {
                                 </div>
                                 <div className="card-body">
                                 <form onSubmit={handleSubmit}>
-                                    <label>Account Name:</label>
-                                    <input type="text" className="form-control" value={AccName} onChange={(e) => setAccName(e.target.value)} />
+                                    <div className="row form-group">
+                                        <div className="form-group col-md-4">
+                                            <label>Account Name:</label>
+                                            <input
+                                                type="text" className="form-control"
+                                                value={AccName}
+                                                onChange={(e) => setAccName(e.target.value)}
+                                            />
+                                        </div><div className="form-group col-md-4"></div>
+                                        <div className="form-group col-md-4"></div>
+                                    </div>
 
-                                    <label>Balance:</label>
-                                    <input type="text" className="form-control" value={Balance} onChange={(e) => setBalance(e.target.value)} />
-                                     <br/>
-                                    <button type="submit" disabled={isSubmitting} className="btn btn-block btn-success"> {isSubmitting? "Adding..." : "Add Customer"} </button>
+
+                                    <div className="row form-group">
+                                        <div className="form-group col-md-4">
+                                            <label>Balance:</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={Balance}
+                                                onChange={(e) => setBalance(e.target.value)}
+                                            />
+
+                                        </div><div className="form-group col-md-4"></div>
+                                        <div className="form-group col-md-4"></div>
+                                    </div>
+
+                                    <div className="row form-group">
+                                        <div className="col-sm-4"></div>
+                                        <div className="col-sm-4">
+                                            <button type="submit" disabled={isSubmitting} className="btn btn-success"> {isSubmitting? "Adding..." : "Submit"} </button>
+                                        </div>
+                                        <div className="col-sm-4"></div>
+                                    </div>
                                 </form>
                             </div>
                         </div>

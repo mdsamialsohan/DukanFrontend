@@ -1,20 +1,18 @@
 
 "use client";
-import React, {useState} from 'react';
+import React from 'react';
 import Link from "next/link";
 import List from "@mui/material/List";
 import {usePathname} from "next/navigation";
-import {Collapse, ListItem, ListItemIcon, ListItemText} from "@mui/material";
+import { ListItem, ListItemIcon, ListItemText} from "@mui/material";
 import MailIcon from '@mui/icons-material/Mail';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import CollapsibleItem from "@/app/Component/CollapsibleItem";
 
 function InboxIcon() {
     return null;
 }
 
-function Sidebar({ user }) {
+function Sidebar() {
     const pathName = usePathname();
     return (
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -60,6 +58,22 @@ function Sidebar({ user }) {
                                         <MailIcon />
                                     </ListItemIcon>
                                     <ListItemText primary="New Account" />
+                                </ListItem>
+                            </Link>
+                            <Link href="/Account/Transfer">
+                                <ListItem button className={`nav-item text-white ${pathName === '/Account/Transfer' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                                    <ListItemIcon>
+                                        <MailIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Balance transfer" />
+                                </ListItem>
+                            </Link>
+                            <Link href="/Account/CashDeclare">
+                                <ListItem button className={`nav-item text-white ${pathName === '/Account/CashDeclare' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                                    <ListItemIcon>
+                                        <MailIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Cash Declare" />
                                 </ListItem>
                             </Link>
                         </List>

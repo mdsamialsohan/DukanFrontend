@@ -1,6 +1,5 @@
 "use client";
-import React, {useEffect, useState} from 'react';
-import {useRouter} from "next/navigation";
+import React from 'react';
 import Link from "next/link";
 import {useAuth} from "@/hooks/auth";
 
@@ -25,7 +24,7 @@ function TopNav() {
             </ul>
             <ul className="navbar-nav ml-auto">
                 <li className="nav-item d-none d-sm-inline-block">
-                    <Link href="/" className="nav-link">{user.name}</Link>
+                    <p>{user.name} - Cash: {user.Cash}</p>
                 </li>
                 <li className="nav-item d-none d-sm-inline-block">
                 <Link  href="#" className="btn btn-default btn-flat" onClick={logout}>Sign out</Link>

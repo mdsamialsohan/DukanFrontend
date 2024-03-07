@@ -110,7 +110,7 @@ const Transfer = () => {
                                     <div className="row form-group">
                                         <div className="col-sm-4"></div>
                                         <div className="col-sm-4">
-                                            <button type="submit" disabled={isSubmitting} className="btn btn-success"> {isSubmitting? "Processing..." : "Purchasing"} </button>
+                                            <button type="submit" disabled={isSubmitting} className="btn btn-success"> {isSubmitting? "Processing..." : "Submit"} </button>
                                         </div>
                                         <div className="col-sm-4"></div>
                                     </div>
