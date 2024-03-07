@@ -23,18 +23,18 @@ function List() {
     const columns = [
         {
             name: 'Account ID',
-            selector: 'AccID',
+            selector: row => row.AccID,
             sortable: true,
         },
         {
             name: 'Account Name',
-            selector: 'AccName',
+            selector: row => row.AccName,
             sortable: true,
             filter: 'text', // Use text filter for 'Name'
         },
         {
             name: 'Balance',
-            selector: 'Balance',
+            selector: row => row.Balance,
             sortable: true,
             filter: 'text', // Use text filter for 'Address'
         },

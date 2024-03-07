@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import DataTable from "react-data-table-component";
 import axios from "@/lib/axios";
-import Link from "next/link";
 
 const Ledger = () => {
     const [AvailableCustomer, setAvailableCustomer] = useState([]);
@@ -86,7 +85,7 @@ const Ledger = () => {
         return [
             {
                 name: 'Product',
-                selector: 'ProductID',
+                selector: row => row.ProductID,
                 sortable: true,
                 cell: (row) => (
                     <span>{row.product ? `${row.product.brand.BrandName} - ${row.product.category.ProductCat} - ${row.product.unit.UnitName}` : 'N/A'}</span>
@@ -94,17 +93,17 @@ const Ledger = () => {
             },
             {
                 name: 'Quantity',
-                selector: 'Quantity',
+                selector: row => row.Quantity,
                 sortable: true,
             },
             {
                 name: 'Rate',
-                selector: 'Rate',
+                selector: row => row.Rate,
                 sortable: true,
             },
             {
                 name: 'Sub Total',
-                selector: 'SubTotal',
+                selector: row => row.SubTotal,
                 sortable: true,
             }
         ];

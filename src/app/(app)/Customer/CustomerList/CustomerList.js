@@ -56,12 +56,6 @@ function CustomerList() {
             sortable: true,
             filter: 'text',
         },
-        {
-            name: 'Optional ID',
-            selector: row => row.optional_mobile,
-            sortable: true,
-            filter: 'text',
-        },
     ];
     const customFilterText = (rows, filter) => {
         return rows.filter((row) =>
