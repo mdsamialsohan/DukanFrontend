@@ -1,9 +1,11 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import {useRouter} from "next/navigation";
-import Select from "react-select";
-import axios from "@/lib/axios";
-import Image from "next/image";
+import Select from 'react-select';
+import axios from '@/lib/axios';
+import Image from 'next/image';
+import useSWR from 'swr';
+import fetcher from "@/lib/fetcher";
 
 const CreatePurchase = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -12,11 +14,6 @@ const CreatePurchase = () => {
     const [date, setDate] = useState('');
     const [CustomerID, setCustomerID] = useState('');
     const [products, setProducts] = useState([{ productID: '', quantity: '', rate: '' }]);
-    const [availableProducts, setAvailableProducts] = useState([]);
-    const [availableBrands, setAvailableBrands] = useState([]);
-    const [availableCat, setAvailableCat] = useState([]);
-    const [availableUnit, setAvailableUnit] = useState([]);
-    const [AvailableCustomer, setAvailableCustomer] = useState([]);
     const [total, setTotal] = useState(0);
     const [Due, setDue] = useState(0);
     const [Pay, setPay] = useState(0);
@@ -29,35 +26,35 @@ const CreatePurchase = () => {
     const CustomerAdd = `${apiAdd}/customers`;
     const SellAdd = `${apiAdd}/sell`;
 
-    // Fetch available products when the component mounts
-    useEffect(() => {
-        // Adjust the API endpoint based on your Laravel backend
-        axios.get(ProductAdd)
-            .then((response) => setAvailableProducts(response.data))
-            .catch((error) => console.error('Error fetching products:', error));
+    // Fetching data using SWR
+    const { data: availableProducts } = useSWR(ProductAdd,fetcher);
+    const { data: availableBrands } = useSWR(BrandAdd,fetcher);
+    const { data: availableCat } = useSWR(CatAdd,fetcher);
+    const { data: availableUnit } = useSWR(UnitAdd,fetcher);
+    const { data: availableCustomer } = useSWR(CustomerAdd,fetcher);
 
-        axios.get(BrandAdd)
-            .then((response) => setAvailableBrands(response.data))
-            .catch((error) => console.error('Error fetching Brands:', error));
+    // Fetching data for customer options
+    const customerOptions = availableCustomer?.map((customer) => ({
+        value: customer.c_id,
+        label: customer.name,
+        Due: parseInt(customer.due),
+    })) || [];
 
-        axios.get(CatAdd)
-            .then((response) => setAvailableCat(response.data))
-            .catch((error) => console.error('Error fetching Category:', error));
-
-        axios.get(UnitAdd)
-            .then((response) => setAvailableUnit(response.data))
-            .catch((error) => console.error('Error fetching Unit:', error));
-        axios.get(CustomerAdd)
-            .then((response) => setAvailableCustomer(response.data))
-            .catch((error) => console.error('Error fetching Customers:', error));
-
-    }, [ProductAdd,BrandAdd,CatAdd,UnitAdd,CustomerAdd]);
+    // Fetching data for product options
+    const productOptions = availableProducts?.map((availableProduct) => ({
+        value: availableProduct.ProductID,
+        label: `${availableBrands.find((Brand) => Brand.BrandID === availableProduct.BrandID)?.BrandName || ''} 
+          (${availableCat.find((Cat) => Cat.ProductCatID === availableProduct.ProductCatID)?.ProductCat || ''})  -  
+          ${availableUnit.find((Unit) => Unit.UnitID === availableProduct.UnitID)?.UnitName || ''}
+          (${availableProduct.ProductUnit})`,
+        stock: availableProduct.ProductUnit,
+    })) || [];
 
     useEffect(() => {
         // Calculate the total whenever products, quantities, or rates change
         const calculatedTotal = products.reduce((accumulator, product) => {
-            const quantity = parseFloat(product.quantity) || 0; // Convert to float or default to 0
-            const rate = parseFloat(product.rate) || 0; // Convert to float or default to 0
+            const quantity = parseFloat(product.quantity) || 0;
+            const rate = parseFloat(product.rate) || 0;
             return accumulator + quantity * rate;
         }, 0);
         setTotal(calculatedTotal);
@@ -78,17 +75,19 @@ const CreatePurchase = () => {
         updatedProducts.splice(index, 1);
         setProducts(updatedProducts);
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const hasEmptyFields = date === '' ||
+        const hasEmptyFields =
+            date === '' ||
             CustomerID === '' ||
             products.some(
-            (product) =>
-                product.productID === '' ||
-                product.quantity === '' ||
-                parseFloat(product.quantity) > parseFloat(productOptions.find((option) => option.value === product.productID)?.stock) ||
-                product.rate === ''
-        );
+                (product) =>
+                    product.productID === '' ||
+                    product.quantity === '' ||
+                    parseFloat(product.quantity) > parseFloat(productOptions.find((option) => option.value === product.productID)?.stock) ||
+                    product.rate === ''
+            );
         if (hasEmptyFields) {
             setIsBlank(true);
             return;
@@ -121,20 +120,7 @@ const CreatePurchase = () => {
             // Handle error, show error message, etc.
         }
     };
-    const CustomerOption = AvailableCustomer.map((customer) => ({
-        value: customer.c_id,
-        label: customer.name,
-        Due: parseInt(customer.due),
-    }));
 
-    const productOptions = availableProducts.map((availableProduct) => ({
-        value: availableProduct.ProductID,
-        label: `${availableBrands.find((Brand) => Brand.BrandID === availableProduct.BrandID)?.BrandName || ''} 
-          (${availableCat.find((Cat) => Cat.ProductCatID === availableProduct.ProductCatID)?.ProductCat || ''})  -  
-          ${availableUnit.find((Unit) => Unit.UnitID === availableProduct.UnitID)?.UnitName || ''}
-          (${availableProduct.ProductUnit})`,
-        stock: availableProduct.ProductUnit,
-    }));
 
     return (
         <div className="content-wrapper">
@@ -169,8 +155,8 @@ const CreatePurchase = () => {
                                         <div className="form-group col-md-4">
                                             <label>Customer ID:</label>
                                             <Select
-                                                options={CustomerOption}
-                                                value={CustomerOption.find((option) => option.value === CustomerID)}
+                                                options={customerOptions}
+                                                value={customerOptions.find((option) => option.value === CustomerID)}
                                                 onChange={(selectedOption) => (setCustomerID(selectedOption.value), setDue(selectedOption.Due))}
                                             />
                                             {CustomerID === '' && isBlank && <p className="text-danger">Customer cannot be empty</p>}
@@ -218,8 +204,13 @@ const CreatePurchase = () => {
                                                 />
                                             </div>
                                                 <div className="form-group col-md-2">
-                                                    <button type="button" className="btn-close" aria-label="Close" onClick={() => handleRemoveProduct(index)}>
-                                                        <Image width="20" alt="remove" height="20" src="../../pic/remove.png"/>
+                                                    <button type="button" className="btn" aria-label="Close" onClick={() => handleRemoveProduct(index)}>
+                                                        <Image
+                                                            src="/remove.png"
+                                                            width={30}
+                                                            height={30}
+                                                            alt="Remove"
+                                                        />
                                                     </button>
                                                 </div>
                                         </div>

@@ -5,20 +5,8 @@ import { useEffect } from 'react';
 import Select from 'react-select';
 import axios from "@/lib/axios";
 import useSWR from "swr";
-const fetcher = async (url) => {
-    const defaultOptions = {
-        method: 'GET',
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-        },
-        credentials: 'include',
-    };
-    const response = await fetch(url, defaultOptions);
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return response.json();
-};
+import fetcher from "@/lib/fetcher";
+
 function Page(props) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
@@ -32,14 +20,12 @@ function Page(props) {
     const apiAdd = process.env.NEXT_PUBLIC_API_ADDRESS;
     const ApiUrl = `${apiAdd}/AddProduct`;
 
-    const [ProUnit, setProUnit] = useState([]);
     const UnitUrl = `${apiAdd}/ProductUnit`;
 
-    const [ProBrands, setProBrands] = useState([]);
     const BrandUrl = `${apiAdd}/ProductBrand`;
 
-    const [ProCat, setProCat] = useState([]);
     const CatUrl = `${apiAdd}/ProductCat`;
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
