@@ -222,6 +222,18 @@ function Sidebar() {
                             </Link>
                         </List>
                     </CollapsibleItem>
+                    <CollapsibleItem icon={<InboxIcon />} primary="Report">
+                        <List component="div" disablePadding>
+                            <Link href="/Report/SoldProductList">
+                                <ListItem button className={`nav-item text-white ${pathName === '/Report/SoldProductList' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                                    <ListItemIcon>
+                                        <MailIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Sold Product" />
+                                </ListItem>
+                            </Link>
+                        </List>
+                    </CollapsibleItem>
                 </nav>
             </div>
         </aside>

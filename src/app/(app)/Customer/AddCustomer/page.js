@@ -83,12 +83,7 @@ function Page(props) {
                                         <label>National ID:</label>
                                         <input type="text" className="form-control" value={nationalId} onChange={(e) => setNationalId(e.target.value)} />
 
-                                        <label>Profit:</label>
-                                        <input type="text" className="form-control" value={profit} onChange={(e) => setProfit(e.target.value)} />
-
-                                        <label>Discount:</label>
-                                        <input type="text" className="form-control" value={discount} onChange={(e) => setDiscount(e.target.value)} />
-                                        <br/>
+                                       <br/>
                                         <button type="submit" disabled={isSubmitting} className="btn btn-block btn-success"> {isSubmitting? "Adding..." : "Add Customer"} </button>
                                     </form>
                                 </div>

@@ -208,9 +208,14 @@ const CreatePurchase = () => {
                                                 />
                                             </div>
                                                 <div className="form-group col-md-2">
-                                                    <button type="button" className="btn-close" aria-label="Close" onClick={() => handleRemoveProduct(index)}>
-                                                        <Image width="20" alt="remove" height="20" src="../../pic/remove.png"/>
-                                                    </button>
+                                                    <button type="button" className="btn" aria-label="Close" onClick={() => handleRemoveProduct(index)}>
+                                                        <Image
+                                                            src="/remove.png"
+                                                            width={30}
+                                                            height={30}
+                                                            alt="Remove"
+                                                        />
+                                                         </button>
                                                 </div>
                                         </div>
                                     ))}

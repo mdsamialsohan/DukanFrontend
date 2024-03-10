@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import axios from "@/lib/axios";
+import Link from "next/link";
 function CustomerList() {
     const [customers, setCustomers] = useState([]);
     const [filterText, setFilterText] = useState('');
@@ -42,7 +43,7 @@ function CustomerList() {
             name: 'Due',
             selector: row => row.due,
             sortable: true,
-            filter: 'text',
+            filter: 'numeric',
         },
         {
             name: 'Mobile',
@@ -55,6 +56,14 @@ function CustomerList() {
             selector: row => row.national_id,
             sortable: true,
             filter: 'text',
+        },
+        {
+            name: 'Actions',
+            cell: (row) => (
+                <a className="btn btn-primary btn-sm" href={`/Customer/Update/${row.c_id}`}>Update</a>
+            ),
+            allowOverflow: true,
+            button: true,
         },
     ];
     const customFilterText = (rows, filter) => {

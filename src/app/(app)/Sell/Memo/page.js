@@ -2,12 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from "react-data-table-component";
 import axios from "@/lib/axios";
-
+// import { useSearchParams } from 'next/navigation'
 const Page = () => {
+    // const searchParams = useSearchParams();
+    // // const MemoID = searchParams.get('MemoID');
+    const MemoID = 35;
     const [SelectedMemo, setSelectedMemo] = useState(null);
     const apiAdd = process.env.NEXT_PUBLIC_API_ADDRESS;
-    const MemoID = 9;
-
     useEffect(() => {
             axios.get(`${apiAdd}/sellMemoDetails/${MemoID}`)
                 .then((response) => setSelectedMemo(response.data.sell_dtls))
@@ -17,7 +18,7 @@ const Page = () => {
         return [
             {
                 name: 'Product',
-                selector: 'ProductID',
+                selector: row=>row.ProductID,
                 sortable: true,
             },
         ];
