@@ -4,6 +4,8 @@ import {useRouter} from "next/navigation";
 import Select from "react-select";
 import axios from "@/lib/axios";
 import Image from "next/image";
+import useSWR from "swr";
+import fetcher from "@/lib/fetcher";
 
 const CreatePurchase = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -12,11 +14,6 @@ const CreatePurchase = () => {
     const [date, setDate] = useState('');
     const [vendorID, setVendorID] = useState('');
     const [products, setProducts] = useState([{ productID: '', quantity: '', rate: '' }]);
-    const [availableProducts, setAvailableProducts] = useState([]);
-    const [availableBrands, setAvailableBrands] = useState([]);
-    const [availableCat, setAvailableCat] = useState([]);
-    const [availableUnit, setAvailableUnit] = useState([]);
-    const [availableVendor, setAvailableVendor] = useState([]);
     const [total, setTotal] = useState(0);
     const [Debt, setDebt] = useState(0);
     const [Pay, setPay] = useState(0);
@@ -29,25 +26,28 @@ const CreatePurchase = () => {
     const VendorAdd = `${apiAdd}/VendorList`;
     const PurchaseAdd = `${apiAdd}/Purchase`;
 
-    // Fetch available products when the component mounts
-    useEffect(() => {
-        // Adjust the API endpoint based on your Laravel backend
-        axios.get(ProductAdd)
-            .then((response) => setAvailableProducts(response.data))
-            .catch((error) => console.error('Error fetching products:', error));
-        axios.get(BrandAdd)
-            .then((response) => setAvailableBrands(response.data))
-            .catch((error) => console.error('Error fetching Brands:', error));
-        axios.get(CatAdd)
-            .then((response) => setAvailableCat(response.data))
-            .catch((error) => console.error('Error fetching Category:', error));
-        axios.get(UnitAdd)
-            .then((response) => setAvailableUnit(response.data))
-            .catch((error) => console.error('Error fetching Unit:', error));
-        axios.get(VendorAdd)
-            .then((response) => setAvailableVendor(response.data))
-            .catch((error) => console.error('Error fetching Vendor:', error));
-    }, [ProductAdd,BrandAdd,CatAdd,UnitAdd,VendorAdd]);
+    const { data: availableProducts } = useSWR(ProductAdd,fetcher);
+    const { data: availableBrands } = useSWR(BrandAdd,fetcher);
+    const { data: availableCat } = useSWR(CatAdd,fetcher);
+    const { data: availableUnit } = useSWR(UnitAdd,fetcher);
+    const { data: availableVendor } = useSWR(VendorAdd,fetcher);
+
+    const VendorOptions = availableVendor?.map((vendor) => ({
+        value: vendor.VendorID,
+        label: `${vendor.VendorName} - ${vendor.VendorAddress}`,
+        debt: parseInt(vendor.Debt),
+    })) || [];
+
+    const productOptions = availableProducts?.map((availableProduct) => {
+        const brandName = availableBrands?.find((Brand) => Brand.BrandID === availableProduct.BrandID)?.BrandName || '';
+        const productCat = availableCat?.find((Cat) => Cat.ProductCatID === availableProduct.ProductCatID)?.ProductCat || '';
+        const unitName = availableUnit?.find((Unit) => Unit.UnitID === availableProduct.UnitID)?.UnitName || '';
+
+        return {
+            value: availableProduct.ProductID,
+            label: `${brandName} (${productCat}) - ${unitName} (${availableProduct.ProductUnit})`,
+        };
+    }) || [];
 
     useEffect(() => {
         // Calculate the total whenever products, quantities, or rates change
@@ -76,7 +76,8 @@ const CreatePurchase = () => {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const hasEmptyFields = date === '' ||
+        const hasEmptyFields =
+            date === '' ||
             vendorID === '' ||
             products.some(
             (product) =>
@@ -114,18 +115,7 @@ const CreatePurchase = () => {
             // Handle error, show error message, etc.
         }
     };
-    const VendorOption =availableVendor.map((vendor) => ({
-        value: vendor.VendorID,
-        label: vendor.VendorName,
-        debt: parseInt(vendor.Debt),
-    }));
 
-    const productOptions = availableProducts.map((availableProduct) => ({
-        value: availableProduct.ProductID,
-        label: `${availableBrands.find((Brand) => Brand.BrandID === availableProduct.BrandID)?.BrandName || ''} 
-          (${availableCat.find((Cat) => Cat.ProductCatID === availableProduct.ProductCatID)?.ProductCat || ''})  -  
-          ${availableUnit.find((Unit) => Unit.UnitID === availableProduct.UnitID)?.UnitName || ''}`,
-    }));
 
     return (
         <div className="content-wrapper">
@@ -148,7 +138,6 @@ const CreatePurchase = () => {
                                 </div>
                                 <div className="card-body">
                                 <form onSubmit={handleSubmit}>
-                                    {/* Add form fields for date, vendorID */}
                                     <div className="row">
                                         <div className="form-group col-md-4">
                                             <label>Date:</label>
@@ -160,8 +149,8 @@ const CreatePurchase = () => {
                                         <div className="form-group col-md-4">
                                             <label>Vendor ID:</label>
                                             <Select
-                                                options={VendorOption}
-                                                value={VendorOption.find((option) => option.value === vendorID)}
+                                                options={VendorOptions}
+                                                value={VendorOptions.find((option) => option.value === vendorID)}
                                                 onChange={(selectedOption) => (setVendorID(selectedOption.value), setDebt(selectedOption.debt))}
                                             />
                                             {vendorID === '' && isBlank && <p className="text-danger">Date cannot be empty</p>}

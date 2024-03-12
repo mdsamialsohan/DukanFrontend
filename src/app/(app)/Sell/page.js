@@ -112,7 +112,7 @@ const CreatePurchase = () => {
                 console.log('Purchase successfully added');
                 const responseData = await response.data;
                 const memoId = responseData.memoId;
-                window.open(`/SellMemo?MemoId=${memoId}`, '_blank');
+                window.open(`/Sell/Memo?MemoId=${memoId}`, '_blank');
                 router.push(`/`);
             } else {
                 console.error('Failed to add purchase');

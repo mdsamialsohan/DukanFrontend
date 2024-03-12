@@ -13,6 +13,7 @@ const Dashboard = () => {
     const apiAdd = process.env.NEXT_PUBLIC_API_ADDRESS;
     const apiUrl = `${apiAdd}/TotalBillByDate/${formattedDate}`;
     const apiPay = `${apiAdd}/TotalPayByDate/${formattedDate}`;
+    const apiExp = `${apiAdd}/TotalExpByDate/${formattedDate}`;
     const apiDue = `${apiAdd}/TotalDue`;
     const apiDebt = `${apiAdd}/TotalDebt`;
     const apiProductvalue = `${apiAdd}/ProductValue`;
@@ -22,6 +23,7 @@ const Dashboard = () => {
     const { data:Due, error2 } = useSWR(apiDue, fetcher);
     const { data:Debt, error3 } = useSWR(apiDebt, fetcher);
     const { data:ProductValue, error4 } = useSWR(apiProductvalue, fetcher);
+    const { data:Exp, error5 } = useSWR(apiExp, fetcher);
     if (error) {
         console.error('Failed to fetch data:', error);
     }
@@ -36,6 +38,9 @@ const Dashboard = () => {
     }
     if (error4) {
         console.error('Failed to fetch data:', error4);
+    }
+    if (error5) {
+        console.error('Failed to fetch data:', error5);
     }
     return (
         <div className="content-wrapper">
@@ -106,10 +111,22 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className="col-lg-3 col-6">
-                            <div className="small-box bg-danger">
+                            <div className="small-box bg-success">
                                 <div className="inner">
                                     <h3>{ProductValue?.TotalPrice ? `${parseInt(ProductValue.TotalPrice)} BDT` : 'Loading...'}</h3>
                                     <p>Products on Stock</p>
+                                </div>
+                                <div className="icon">
+                                    <i className="ion ion-bag"></i>
+                                </div>
+                                <Link href="#" className="small-box-footer">More info <i className="fas fa-arrow-circle-right"></i></Link>
+                            </div>
+                        </div>
+                        <div className="col-lg-3 col-6">
+                            <div className="small-box bg-danger">
+                                <div className="inner">
+                                    <h3>{Exp?.total_exp ? `${parseInt(Exp.total_exp)} BDT` : 'Loading...'}</h3>
+                                    <p>Todays Expense</p>
                                 </div>
                                 <div className="icon">
                                     <i className="ion ion-bag"></i>
