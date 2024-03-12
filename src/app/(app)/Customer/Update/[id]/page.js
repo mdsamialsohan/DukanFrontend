@@ -32,7 +32,7 @@ const UpdateCustomer = () => {
         if (params.id) {
             fetchCustomer();
         }
-    }, [params.id]);
+    }, [apiAdd,params.id]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

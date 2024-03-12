@@ -10,10 +10,8 @@ const Ledger = () => {
     const [transactions, setTransactions] = useState([]);
     const [customerID, setCustomerID] = useState('');
     const [filterText, setFilterText] = useState('');
-    const [SelectedSellMemoDetails, setSelectedSellMemoDetails] = useState(null);
     const apiAdd = process.env.NEXT_PUBLIC_API_ADDRESS;
     const CustomerAdd = `${apiAdd}/customers`;
-    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         // Fetch the list of customers
@@ -35,14 +33,14 @@ const Ledger = () => {
 
     const CustomerOption = AvailableCustomer.map((customer) => ({
         value: customer.c_id,
-        label: customer.name,
+        label:`${customer.name} - ${customer.address}`,
         address: customer.address,
     }));
     const columns = [
         {
             name: 'SellMemoID',
             selector: (row) => (
-                <a href="#" onClick={() => handleSellMemoClick(row)}>
+                <a href={`/Sell/Memo?MemoId=${row.SellMemoID}`} target="_blank" rel="noopener noreferrer">
                     {row.SellMemoID}
                 </a>
             ),
@@ -72,46 +70,7 @@ const Ledger = () => {
             filter: 'text', // Use text filter for 'Due'
         },
     ];
-    const handleSellMemoClick = (sellMemo) => {
-        // Fetch detailed information using Laravel API
-        axios.get(`${apiAdd}/sellMemoDetails/${sellMemo.SellMemoID}`)
-            .then((response) => {
-                setSelectedSellMemoDetails(response.data);
-                setShowModal(true);
-            })
-            .catch((error) => console.error('Error fetching Memo Details:', error));
-    };
-    const setColumns = () => {
-        return [
-            {
-                name: 'Product',
-                selector: row => row.ProductID,
-                sortable: true,
-                cell: (row) => (
-                    <span>{row.product ? `${row.product.brand.BrandName} - ${row.product.category.ProductCat} - ${row.product.unit.UnitName}` : 'N/A'}</span>
-                ),
-            },
-            {
-                name: 'Quantity',
-                selector: row => row.Quantity,
-                sortable: true,
-            },
-            {
-                name: 'Rate',
-                selector: row => row.Rate,
-                sortable: true,
-            },
-            {
-                name: 'Sub Total',
-                selector: row => row.SubTotal,
-                sortable: true,
-            }
-        ];
-    };
-    const handleCloseModal = () => {
-        // Close the modal
-        setShowModal(false);
-    };
+
     const customFilterText = (rows, filter) => {
         return rows.filter((row) =>
             row.Date.toLowerCase().includes(filter.toLowerCase())||
@@ -169,21 +128,6 @@ const Ledger = () => {
                                                 highlightOnHover
                                                 responsive
                                             />
-                                        </div>
-                                    )}
-                                    {showModal && (
-                                        <div className="modal" style={{ display: showModal ? 'block' : 'none' }}>
-                                            <div className="modal-content">
-                                                <span className="close" onClick={handleCloseModal}>&times;</span>
-                                                <h2>Memo Details</h2>
-                                                <DataTable
-                                                    columns={setColumns()}
-                                                    data={SelectedSellMemoDetails.sell_dtls}
-                                                    pagination
-                                                    highlightOnHover
-                                                    responsive
-                                                />
-                                            </div>
                                         </div>
                                     )}
                                 </div>

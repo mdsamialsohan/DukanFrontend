@@ -160,64 +160,92 @@ function Sidebar() {
                                     <ListItemText primary="Product Stock" />
                                 </ListItem>
                             </Link>
+                            <CollapsibleItem icon={<InboxIcon />} primary="Category">
+                                <List component="div" disablePadding>
+                                    <Link href="/Product/Category/Add">
+                                        <ListItem button className={`nav-item text-white ${pathName === '/Product/Category/Add' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                                            <ListItemIcon>
+                                                <MailIcon />
+                                            </ListItemIcon>
+                                            <ListItemText primary="New Category" />
+                                        </ListItem>
+                                    </Link>
+                                    <Link href="/Product/Category/List">
+                                        <ListItem button className={`nav-item text-white ${pathName === '/Product/Category/List' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                                            <ListItemIcon>
+                                                <MailIcon />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Category List" />
+                                        </ListItem>
+                                    </Link>
+                                </List>
+                            </CollapsibleItem>
+                            <CollapsibleItem icon={<InboxIcon />} primary="Brand">
+                                <List component="div" disablePadding>
+                                    <Link href="/Product/Brand/Add">
+                                        <ListItem button className={`nav-item text-white ${pathName === '/Product/Brand/Add' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                                            <ListItemIcon>
+                                                <MailIcon />
+                                            </ListItemIcon>
+                                            <ListItemText primary="New Brand" />
+                                        </ListItem>
+                                    </Link>
+                                    <Link href="/Product/Brand/List">
+                                        <ListItem button className={`nav-item text-white ${pathName === '/Product/Brand/List' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                                            <ListItemIcon>
+                                                <MailIcon />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Brand List" />
+                                        </ListItem>
+                                    </Link>
+                                </List>
+                            </CollapsibleItem>
+                            <CollapsibleItem icon={<InboxIcon />} primary="Unit">
+                                <List component="div" disablePadding>
+                                    <Link href="/Product/Unit/Add">
+                                        <ListItem button className={`nav-item text-white ${pathName === '/Product/Unit/Add' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                                            <ListItemIcon>
+                                                <MailIcon />
+                                            </ListItemIcon>
+                                            <ListItemText primary="New Unit" />
+                                        </ListItem>
+                                    </Link>
+                                    <Link href="/Product/Unit/List">
+                                        <ListItem button className={`nav-item text-white ${pathName === '/Product/Unit/List' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                                            <ListItemIcon>
+                                                <MailIcon />
+                                            </ListItemIcon>
+                                            <ListItemText primary="Unit List" />
+                                        </ListItem>
+                                    </Link>
+                                </List>
+                            </CollapsibleItem>
                         </List>
                     </CollapsibleItem>
-                    <CollapsibleItem icon={<InboxIcon />} primary="Brand">
+                    <CollapsibleItem icon={<InboxIcon />} primary="Expenses">
                         <List component="div" disablePadding>
-                            <Link href="/Product/Brand/Add">
-                                <ListItem button className={`nav-item text-white ${pathName === '/Product/Brand/Add' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                            <Link href="/Expense">
+                                <ListItem button className={`nav-item text-white ${pathName === '/Expense' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
                                     <ListItemIcon>
                                         <MailIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary="New Brand" />
+                                    <ListItemText primary="Add Expenses" />
                                 </ListItem>
                             </Link>
-                            <Link href="/Product/Brand/List">
-                                <ListItem button className={`nav-item text-white ${pathName === '/Product/Brand/List' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                            <Link href="/Expense/List">
+                                <ListItem button className={`nav-item text-white ${pathName === '/Expense/List' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
                                     <ListItemIcon>
                                         <MailIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary="Brand List" />
+                                    <ListItemText primary="Expense List" />
                                 </ListItem>
                             </Link>
-                        </List>
-                    </CollapsibleItem>
-                    <CollapsibleItem icon={<InboxIcon />} primary="Category">
-                        <List component="div" disablePadding>
-                            <Link href="/Product/Category/Add">
-                                <ListItem button className={`nav-item text-white ${pathName === '/Product/Category/Add' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                            <Link href="/Expense/Account">
+                                <ListItem button className={`nav-item text-white ${pathName === '/Expense/Account' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
                                     <ListItemIcon>
                                         <MailIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary="New Category" />
-                                </ListItem>
-                            </Link>
-                            <Link href="/Product/Category/List">
-                                <ListItem button className={`nav-item text-white ${pathName === '/Product/Category/List' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
-                                    <ListItemIcon>
-                                        <MailIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Category List" />
-                                </ListItem>
-                            </Link>
-                        </List>
-                    </CollapsibleItem>
-                    <CollapsibleItem icon={<InboxIcon />} primary="Unit">
-                        <List component="div" disablePadding>
-                            <Link href="/Product/Unit/Add">
-                                <ListItem button className={`nav-item text-white ${pathName === '/Product/Unit/Add' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
-                                    <ListItemIcon>
-                                        <MailIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="New Unit" />
-                                </ListItem>
-                            </Link>
-                            <Link href="/Product/Unit/List">
-                                <ListItem button className={`nav-item text-white ${pathName === '/Product/Unit/List' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
-                                    <ListItemIcon>
-                                        <MailIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Unit List" />
+                                    <ListItemText primary="Expense Account" />
                                 </ListItem>
                             </Link>
                         </List>

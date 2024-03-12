@@ -16,7 +16,6 @@ const Page = () => {
             axios.get(`${apiAdd}/SoldProduct/${date}`)
                 .then((response) => setProductList(response.data.soldProducts))
                 .catch((error) => console.error('Error fetching sold products:', error));
-
             setSelectedProductList(date);
         }
     }, [date, apiAdd]);

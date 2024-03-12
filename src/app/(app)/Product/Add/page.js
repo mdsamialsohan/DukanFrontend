@@ -83,55 +83,6 @@ function Page(props) {
         }
     }, [brandError]);
 
-    // useEffect(() => {
-    //     const fetchProUnit = async () => {
-    //         try {
-    //             const response = await axios.get(UnitUrl);
-    //             setProUnit(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching Product Units:', error);
-    //         }
-    //     };
-    //     fetchProUnit();
-    //
-    //     const fetchProBrands = async () => {
-    //         try {
-    //             const response = await axios.get(BrandUrl);
-    //             setProBrands(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching Product Brands:', error);
-    //         }
-    //     };
-    //     fetchProBrands();
-    //
-    //     const fetchProCat = async () => {
-    //         try {
-    //             const response = await axios.get(CatUrl);
-    //             setProCat(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching Product Category:', error);
-    //         }
-    //     };
-    //     fetchProCat();
-    //     // Ensure that the select2 library is loaded before calling the initialization
-    //
-    //     // if (window.$) {
-    //     //     $('.select2').select2();
-    //     // }
-    // });
-
-    // const optionBrand = ProBrands.map((Product) => ({
-    //     value: Product.BrandID,
-    //     label: Product.BrandName,
-    // }));
-    // const optionCat = ProCat.map((PC) => ({
-    //     value: PC.ProductCatID,
-    //     label: PC.ProductCat,
-    // }));
-    // const optionUnit = ProUnit.map((Pu) => ({
-    //     value: Pu.UnitID,
-    //     label: Pu.UnitName,
-    // }));
     const optionBrand = brandData?.map((product) => ({
         value: product.BrandID,
         label: product.BrandName,
