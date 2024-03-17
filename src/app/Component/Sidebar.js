@@ -260,6 +260,14 @@ function Sidebar() {
                                     <ListItemText primary="Sold Product" />
                                 </ListItem>
                             </Link>
+                            <Link href="/Report/BalanceChart">
+                                <ListItem button className={`nav-item text-white ${pathName === '/Report/BalanceChart' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                                    <ListItemIcon>
+                                        <MailIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Balance Chart" />
+                                </ListItem>
+                            </Link>
                         </List>
                     </CollapsibleItem>
                 </nav>
