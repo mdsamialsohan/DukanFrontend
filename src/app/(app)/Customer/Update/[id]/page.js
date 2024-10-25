@@ -82,7 +82,7 @@ const UpdateCustomer = () => {
                         <div className="col-md-8">
                             <div className="card card-info">
                                 <div className="card-header">
-                                    <h3 className="card-title">Add Customer</h3>
+                                    <h3 className="card-title">Update Customer</h3>
                                 </div>
                                 <div className="card-body">
                                     <form onSubmit={handleSubmit}>

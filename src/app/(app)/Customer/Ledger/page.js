@@ -74,7 +74,9 @@ const Ledger = () => {
     const customFilterText = (rows, filter) => {
         return rows.filter((row) =>
             row.Date.toLowerCase().includes(filter.toLowerCase())||
-            row.Due.toLowerCase().includes(filter.toLowerCase())
+            row.Due.toLowerCase().includes(filter.toLowerCase())||
+            row.TotalBill.toLowerCase().includes(filter.toLowerCase())||
+            row.Paid.toLowerCase().includes(filter.toLowerCase())
 
         );
     };

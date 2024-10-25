@@ -140,6 +140,14 @@ function Sidebar() {
                                     <ListItemText primary="Debt Pay" />
                                 </ListItem>
                             </Link>
+                            <Link href="/Vendor/Ledger">
+                                <ListItem button className={`nav-item text-white ${pathName === '/Vendor/Ledger' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                                    <ListItemIcon>
+                                        <MailIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Vendor Ledger" />
+                                </ListItem>
+                            </Link>
                         </List>
                     </CollapsibleItem>
                     <CollapsibleItem icon={<InboxIcon />} primary="Product">
@@ -252,6 +260,14 @@ function Sidebar() {
                     </CollapsibleItem>
                     <CollapsibleItem icon={<InboxIcon />} primary="Report">
                         <List component="div" disablePadding>
+                            <Link href="/Report/DailySummary">
+                                <ListItem button className={`nav-item text-white ${pathName === '/Report/DailySummary' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
+                                    <ListItemIcon>
+                                        <MailIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Daily Summary" />
+                                </ListItem>
+                            </Link>
                             <Link href="/Report/SoldProductList">
                                 <ListItem button className={`nav-item text-white ${pathName === '/Report/SoldProductList' ? 'active' : ''}`} sx={{ '&:hover': { backgroundColor: '#03b629' } }}>
                                     <ListItemIcon>
