@@ -14,7 +14,7 @@ const Page = () => {
         TotalDebt: parseFloat(data.TotalDebt),
         TotalDue: parseFloat(data.TotalDue),
         TotalProductPrice: parseFloat(data.TotalProductPrice),
-        TotalBalance: parseFloat(data.TotalProductPrice)+parseFloat(data.TotalUserCash),
+        TotalBalance: parseFloat(data.TotalAccount)+parseFloat(data.TotalUserCash),
     })) || [];
 
     return (
