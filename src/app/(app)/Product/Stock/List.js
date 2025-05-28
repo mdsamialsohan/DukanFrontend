@@ -6,7 +6,7 @@ import axios from "@/lib/axios";
 function ProductList(props) {
     const [Pro, setPro] = useState([]);
     const apiAdd = process.env.NEXT_PUBLIC_API_ADDRESS;
-    const ApiUrl = `${apiAdd}/Product`;
+    const ApiUrl = `${apiAdd}/AllProduct`;
 
     const [ProUnit, setProUnit] = useState([]);
     const UnitUrl = `${apiAdd}/ProductUnit`;
