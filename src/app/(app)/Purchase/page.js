@@ -19,7 +19,7 @@ const CreatePurchase = () => {
     const [Pay, setPay] = useState(0);
 
     const apiAdd = process.env.NEXT_PUBLIC_API_ADDRESS;
-    const ProductAdd = `${apiAdd}/Product`;
+    const ProductAdd = `${apiAdd}/AllProduct`;
     const BrandAdd = `${apiAdd}/ProductBrand`;
     const CatAdd = `${apiAdd}/ProductCat`;
     const UnitAdd = `${apiAdd}/ProductUnit`;
