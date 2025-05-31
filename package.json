@@ -14,15 +14,18 @@
     "@fortawesome/fontawesome-free": "^6.5.1",
     "@mui/icons-material": "^5.15.11",
     "@mui/material": "^5.15.11",
+    "@tailwindcss/postcss": "^4.1.8",
     "axios": "^1.6.7",
     "bootstrap": "^5.3.3",
     "next": "14.1.0",
+    "postcss": "^8.5.4",
     "react": "^18.2.0",
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18.2.0",
     "react-select": "^5.8.0",
     "recharts": "^2.12.3",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "tailwindcss": "^4.1.8"
   },
   "devDependencies": {
     "eslint": "^8",

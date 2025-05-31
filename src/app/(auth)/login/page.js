@@ -39,33 +39,30 @@ const Login = () => {
     }
 
     return (
-        <div className="login-box">
-            <div className="login-logo">
-                <b>DOOKAN</b>
-            </div>
-            {/* /.login-logo */}
-            <div className="login-box-body">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-blue-100">
+            <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+                <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">
+                    Dokan
+                </h2>
             <AuthSessionStatus className="mb-4" status={status} />
-            <form onSubmit={submitForm}>
+            <form onSubmit={submitForm} className="space-y-4">
                 {/* Email Address */}
-                <div className="form-group has-feedback">
-                    <input type="email" className="form-control" placeholder="Email" required
+                <div >
+                    <input type="email"  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Email" required
                            onChange={e => setEmail(e.target.value)}
                     />
-                    <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    {/*<span className="glyphicon glyphicon-envelope form-control-feedback"></span>*/}
                 </div>
 
                 {/* Password */}
-                <div className="form-group has-feedback">
-                    <input type="password" className="form-control" placeholder="Password" required
+                <div>
+                    <input type="password"  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Password" required
                            onChange={e => setPassword(e.target.value)}
                     />
-                    <span className="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
 
                 {/* Remember Me */}
-                <div className="row">
-                    <label htmlFor="remember_me" className="inline-flex items-center">
+                <div >
                         <input
                             id="remember_me"
                             type="checkbox"
@@ -79,13 +76,9 @@ const Login = () => {
                         <span className="ml-2 text-sm text-gray-600">
                             Remember me
                         </span>
-                    </label>
                 </div>
-                <div className="row">
-                    <div className="col-xs-4">
-                        <button type="submit" className="btn btn-primary btn-block btn-flat">Sign In</button>
-                    </div>
-                </div>
+                        <button type="submit" className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">Sign In</button>
+
             </form>
             </div>
         </div>
