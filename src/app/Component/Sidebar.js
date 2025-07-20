@@ -14,9 +14,13 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import LabelImportantIcon from '@mui/icons-material/LabelImportant';
 
-export default function Sidebar() {
+export default function Sidebar({user}) {
+    const isAdmin = user?.role === 'admin';
+    const isSalesman = user?.role === 'salesman';
     return (
         <aside className="main-sidebar elevation-4 w-64 bg-[#119fb9] min-h-screen p-3">
+            {isAdmin && (
+                <>
             <nav className="space-y-2">
                 <SidebarItem href="/dashboard" icon={DashboardIcon} label="Dashboard" />
                 <SidebarItem href="/Sell" icon={ShoppingCartIcon} label="Sell" />
@@ -72,6 +76,27 @@ export default function Sidebar() {
                     <SidebarItem href="/Report/BalanceChart" icon={CircleIcon} label="Balance Chart" />
                 </SidebarSection>
             </nav>
+                </>)}
+            {isSalesman && (
+                <>
+                    <nav className="space-y-2">
+                        <SidebarItem href="/dashboard" icon={DashboardIcon} label="Dashboard" />
+                        <SidebarItem href="/Sell" icon={ShoppingCartIcon} label="Sell" />
+
+                        <SidebarSection icon={PeopleIcon} title="Customer">
+                            <SidebarItem href="/Customer/AddCustomer" icon={CircleIcon} label="Add Customer" />
+                            <SidebarItem href="/Customer/CustomerList" icon={CircleIcon} label="Customer List" />
+                            <SidebarItem href="/Customer/DueCollection" icon={CircleIcon} label="Due Collection" />
+                            <SidebarItem href="/Customer/Ledger" icon={CircleIcon} label="Customer Ledger" />
+                        </SidebarSection>
+
+                        <SidebarSection icon={AssessmentIcon} title="Report">
+                            <SidebarItem href="/Report/DailySummary" icon={CircleIcon} label="Daily Summary" />
+                            <SidebarItem href="/Report/SoldProductList" icon={CircleIcon} label="Sold Product" />
+                            <SidebarItem href="/Report/BalanceChart" icon={CircleIcon} label="Balance Chart" />
+                        </SidebarSection>
+                    </nav>
+                </>)}
         </aside>
     );
 }
