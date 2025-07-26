@@ -1,6 +1,6 @@
 
 ## Dokan -  a Sales Management System — Frontend
-
+- **Live Demo:** [https://dokan.samialsohan.com/](https://dokan.samialsohan.com/)
 ## Overview
 Next.js frontend for the Sales Management System, providing a responsive UI to manage sales, inventory, and customers. Styled with Tailwind CSS and communicating with a Laravel backend via REST API.
 
