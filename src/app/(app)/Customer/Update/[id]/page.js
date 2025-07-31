@@ -45,7 +45,6 @@ const UpdateCustomer = () => {
                 name,
                 mobile,
                 address,
-                due,
                 national_id,
             });
 
@@ -107,15 +106,6 @@ const UpdateCustomer = () => {
                                             <div className="form-group col-md-4">
                                                 <label>Address:</label>
                                                 <textarea className="form-control form-control-lg" value={address} onChange={(e) => setAddress(e.target.value)}></textarea>
-
-                                            </div>
-                                            <div className="form-group col-md-4"></div>
-                                            <div className="form-group col-md-4"></div>
-                                        </div>
-                                        <div className="row form-group">
-                                            <div className="form-group col-md-4">
-                                                <label>Due:</label>
-                                                <textarea className="form-control form-control-lg" value={due} onChange={(e) => setDue(e.target.value)}></textarea>
 
                                             </div>
                                             <div className="form-group col-md-4"></div>

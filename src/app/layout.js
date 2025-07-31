@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import '@/app/Component/admin/adminlte.min.css';
 
 export const metadata = {
-  title: 'Dookan',
+  title: 'Dookan-The Shop',
 }
 const RootLayout = ({ children }) => {
   return (

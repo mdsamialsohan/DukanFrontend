@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import axios from "@/lib/axios";
 import Link from "next/link";
-function CustomerList() {
+function CustomerList({ user }) {
+    const isSalesman = user?.role === 'salesman';
     const [customers, setCustomers] = useState([]);
     const [filterText, setFilterText] = useState('');
     const apiAdd = process.env.NEXT_PUBLIC_API_ADDRESS;
     const ApiUrl = `${apiAdd}/customers`;
-
+    console.log(isSalesman);
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
@@ -57,14 +58,21 @@ function CustomerList() {
             sortable: true,
             filter: 'text',
         },
-        {
-            name: 'Actions',
-            cell: (row) => (
-                <a className="btn btn-primary btn-sm" href={`/Customer/Update/${row.c_id}`}>Update</a>
-            ),
-            allowOverflow: true,
-            button: true,
-        },
+        ...(!isSalesman
+            ? [{
+                name: 'Actions',
+                cell: row => (
+                    <a
+                        className="btn btn-primary btn-sm"
+                        href={`/Customer/Update/${row.c_id}`}
+                    >
+                        Update
+                    </a>
+                ),
+                allowOverflow: true,
+                button: true,
+            }]
+            : []),
     ];
     const customFilterText = (rows, filter) => {
         return rows.filter((row) =>
