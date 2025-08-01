@@ -45,6 +45,7 @@ export default function Sidebar({user}) {
                     <SidebarItem href="/Account/Add" label="New Account" />
                     <SidebarItem href="/Account/Transfer"  label="Balance Transfer" />
                     <SidebarItem href="/Account/CashDeclare"  label="Cash Declare" />
+                    <SidebarItem href="/Account/CashPickUp"  label="Cash Pick Up" />
                 </SidebarSection>
 
                 <SidebarSection

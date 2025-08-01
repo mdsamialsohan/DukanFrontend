@@ -38,8 +38,12 @@ const ApprovePage = () => {
         if (!MemoID) return;
         axios.get(`${apiAdd}/sellMemoDetails/${MemoID}`).then(res => {
             const memoData = res.data.sellMemo;
+            if (memoData.isApproved) {
+                alert("This memo is already approved!");
+                router.replace('/'); // redirect immediately
+                return;
+            }
             setMemo(memoData);
-            console.log(memoData);
             setFormData({
                 customerID: memoData.c_id,
                 originalCustomerID: memoData.c_id,
@@ -65,13 +69,13 @@ const ApprovePage = () => {
         if (!formData?.customerID || !customerOptions.length) return;
 
         const selectedCustomer = customerOptions.find(opt => opt.value === formData.customerID);
-        if (selectedCustomer) {
+        if (selectedCustomer && formData.prevDue !== selectedCustomer.Due) {
             setFormData(prev => ({
                 ...prev,
                 prevDue: selectedCustomer.Due,
             }));
         }
-    }, [formData?.customerID, customerOptions]);
+    }, [formData?.customerID, customerOptions, formData?.prevDue]);
     // Update calculations on input change
     useEffect(() => {
         if (!formData) return;
@@ -104,9 +108,11 @@ const ApprovePage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsSubmitting(true);
-        console.log(formData);
+        if (isSubmitting) {
+            return;
+        }
         try {
+            setIsSubmitting(true);
             const payload = {
                 ...formData,
                 isApproved: 1,
@@ -119,14 +125,17 @@ const ApprovePage = () => {
                 }))
             };
 
-            await axios.post(`${apiAdd}/approveMemo/${MemoID}`, payload);
-            alert("Memo Approved!");
-            router.push("/");
+            const response= await axios.post(`${apiAdd}/approveMemo/${MemoID}`, payload);
+            if (response.status >= 200 && response.status < 300) {
+                console.log('Successfully Approved');
+                router.push(`PendingList`);
+            } else {
+                console.error('Failed to Approved');
+                // Handle failure, show error message, etc.
+            }
         } catch (err) {
             console.error(err);
             alert("Failed to approve memo.");
-        } finally {
-            setIsSubmitting(false);
         }
     };
 

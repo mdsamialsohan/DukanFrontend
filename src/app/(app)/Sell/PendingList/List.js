@@ -56,8 +56,6 @@ function Pending() {
                     Approve
                 </Link>
             ),
-            allowOverflow: true,
-            button: true,
         },
     ];
     const customFilterText = (rows, filter) => {
