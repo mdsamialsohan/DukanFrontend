@@ -17,6 +17,8 @@ const CreatePurchase = () => {
     const [total, setTotal] = useState(0);
     const [Debt, setDebt] = useState(0);
     const [Pay, setPay] = useState(0);
+    const [TransportCost, setTransportCost] = useState(0);
+    const [LabourCost, setLabourCost] = useState(0);
 
     const apiAdd = process.env.NEXT_PUBLIC_API_ADDRESS;
     const ProductAdd = `${apiAdd}/AllProduct`;
@@ -100,6 +102,8 @@ const CreatePurchase = () => {
                 VendorID:vendorID,
                 products,
                 Pay,
+                TransportCost,
+                LabourCost
             });
 
             if (response.status >= 200 && response.status < 300)  {
@@ -137,164 +141,200 @@ const CreatePurchase = () => {
                                     <h3 className="card-title">Purchase Memo</h3>
                                 </div>
                                 <div className="card-body">
-                                <form onSubmit={handleSubmit}>
-                                    <div className="row">
-                                        <div className="form-group col-md-4">
-                                            <label>Date:</label>
-                                            <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
-                                            {date === '' && isBlank && <p className="text-danger">Date cannot be empty</p>}
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="row">
+                                            <div className="form-group col-md-4">
+                                                <label>Date:</label>
+                                                <input type="date" value={date}
+                                                       onChange={(e) => setDate(e.target.value)}/>
+                                                {date === '' && isBlank &&
+                                                    <p className="text-danger">Date cannot be empty</p>}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="form-group col-md-4">
-                                            <label>Vendor ID:</label>
-                                            <Select
-                                                options={VendorOptions}
-                                                value={VendorOptions.find((option) => option.value === vendorID)}
-                                                onChange={(selectedOption) => (setVendorID(selectedOption.value), setDebt(selectedOption.debt))}
-                                            />
-                                            {vendorID === '' && isBlank && <p className="text-danger">Date cannot be empty</p>}
-                                        </div><div className="form-group col-md-4"></div><div className="form-group col-md-4"></div>
-                                    </div>
+                                        <div className="row">
+                                            <div className="form-group col-md-4">
+                                                <label>Vendor ID:</label>
+                                                <Select
+                                                    options={VendorOptions}
+                                                    value={VendorOptions.find((option) => option.value === vendorID)}
+                                                    onChange={(selectedOption) => (setVendorID(selectedOption.value), setDebt(selectedOption.debt))}
+                                                />
+                                                {vendorID === '' && isBlank &&
+                                                    <p className="text-danger">Date cannot be empty</p>}
+                                            </div>
+                                            <div className="form-group col-md-4"></div>
+                                            <div className="form-group col-md-4"></div>
+                                        </div>
 
-                                    {/* Dynamic product fields */}
-                                    {products.map((product, index) => (
-                                        <div className="row" key={index}>
+                                        {/* Dynamic product fields */}
+                                        {products.map((product, index) => (
+                                            <div className="row" key={index}>
                                                 <div className="form-group col-md-3">
-                                                <label>Product ID:</label>
+                                                    <label>Product ID:</label>
                                                     <Select
-                                                        styles={{ width: '100%' }}
-                                                        options={[{ value: '', label: 'Select Product' }, ...productOptions]}
+                                                        styles={{width: '100%'}}
+                                                        options={[{
+                                                            value: '',
+                                                            label: 'Select Product'
+                                                        }, ...productOptions]}
                                                         value={productOptions.find((option) => option.value === product.ProductID)}
                                                         onChange={(selectedOption) => handleProductChange(index, 'productID', selectedOption.value)}
                                                     />
-                                                    {product.productID === '' && isBlank && <p className="text-danger">Product cannot be empty</p>}
-                                            </div>
-                                            <div className="form-group col-md-2">
-                                                <label>Quantity:</label>
-                                                <input
-                                                    type="text" className="form-control"
-                                                    value={product.quantity}
-                                                    onChange={(e) => handleProductChange(index, 'quantity', e.target.value)}
-                                                />
-                                                {product.quantity === '' && isBlank && <p className="text-danger">Quantity cannot be empty</p>}
-                                            </div>
-                                            <div className="form-group col-md-2">
-                                                <label>Rate:</label>
-                                                <input
-                                                    type="text" className="form-control"
-                                                    value={product.rate}
-                                                    onChange={(e) => handleProductChange(index, 'rate', e.target.value)}
-                                                />
-                                                {product.rate === '' && isBlank && <p className="text-danger">Rate cannot be empty</p>}
-                                            </div>
-                                            <div className="form-group col-md-2">
-                                                <label>Sub Total:</label>
-                                                <input
-                                                    type="text" className="form-control"
-                                                    value={product.rate*product.quantity}
-                                                    disabled
-                                                />
-                                            </div>
+                                                    {product.productID === '' && isBlank &&
+                                                        <p className="text-danger">Product cannot be empty</p>}
+                                                </div>
                                                 <div className="form-group col-md-2">
-                                                    <button type="button" className="btn" aria-label="Close" onClick={() => handleRemoveProduct(index)}>
+                                                    <label>Quantity:</label>
+                                                    <input
+                                                        type="text" className="form-control"
+                                                        value={product.quantity}
+                                                        onChange={(e) => handleProductChange(index, 'quantity', e.target.value)}
+                                                    />
+                                                    {product.quantity === '' && isBlank &&
+                                                        <p className="text-danger">Quantity cannot be empty</p>}
+                                                </div>
+                                                <div className="form-group col-md-2">
+                                                    <label>Rate:</label>
+                                                    <input
+                                                        type="text" className="form-control"
+                                                        value={product.rate}
+                                                        onChange={(e) => handleProductChange(index, 'rate', e.target.value)}
+                                                    />
+                                                    {product.rate === '' && isBlank &&
+                                                        <p className="text-danger">Rate cannot be empty</p>}
+                                                </div>
+                                                <div className="form-group col-md-2">
+                                                    <label>Sub Total:</label>
+                                                    <input
+                                                        type="text" className="form-control"
+                                                        value={product.rate * product.quantity}
+                                                        disabled
+                                                    />
+                                                </div>
+                                                <div className="form-group col-md-2">
+                                                    <button type="button" className="btn" aria-label="Close"
+                                                            onClick={() => handleRemoveProduct(index)}>
                                                         <Image
                                                             src="/remove.png"
                                                             width={30}
                                                             height={30}
                                                             alt="Remove"
                                                         />
-                                                         </button>
+                                                    </button>
                                                 </div>
-                                        </div>
-                                    ))}
+                                            </div>
+                                        ))}
 
-                                    {/* Button to add more products */}
-                                    <div className="row form-group">
-                                        <div className="col-sm-4"></div>
-                                        <div className="col-sm-4">
-                                            <button className="btn btn-warning"  type="button" onClick={handleAddProduct}>
-                                                Add Product
-                                            </button>
+                                        {/* Button to add more products */}
+                                        <div className="row form-group">
+                                            <div className="col-sm-4"></div>
+                                            <div className="col-sm-4">
+                                                <button className="btn btn-warning" type="button"
+                                                        onClick={handleAddProduct}>
+                                                    Add Product
+                                                </button>
+                                            </div>
+                                            <div className="col-sm-4"></div>
                                         </div>
-                                        <div className="col-sm-4"></div>
-                                    </div>
 
-                                    {/* Submit button */}
-                                    <div className="row form-group">
-                                        <div className="form-group col-md-4"></div>
-                                        <div className="form-group col-md-3"></div>
-                                        <div className="form-group col-md-2">
-                                            <label>Total:</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={total}
-                                                disabled
-                                            />
+                                        {/* Submit button */}
+                                        <div className="row form-group">
+                                            <div className="form-group col-md-4"></div>
+                                            <div className="form-group col-md-3"></div>
+                                            <div className="form-group col-md-2">
+                                                <label>Total:</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={total}
+                                                    disabled
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="row form-group">
-                                        <div className="form-group col-md-4"></div>
-                                        <div className="form-group col-md-3"></div>
-                                        <div className="form-group col-md-2">
-                                            <label>Debt:</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={Debt}
-                                                disabled
-                                            />
+                                        <div className="row form-group">
+                                            <div className="form-group col-md-4"></div>
+                                            <div className="form-group col-md-3"></div>
+                                            <div className="form-group col-md-2">
+                                                <label>Debt:</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={Debt}
+                                                    disabled
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="row form-group">
-                                        <div className="form-group col-md-4"></div>
-                                        <div className="form-group col-md-3"></div>
-                                        <div className="form-group col-md-2">
-                                            <label>Bill:</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                value={(Debt+total)}
-                                                disabled
-                                            />
+                                        <div className="row form-group">
+                                            <div className="form-group col-md-4"></div>
+                                            <div className="form-group col-md-3"></div>
+                                            <div className="form-group col-md-2">
+                                                <label>Bill:</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={(Debt + total)}
+                                                    disabled
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="row form-group">
-                                        <div className="form-group col-md-4"></div>
-                                        <div className="form-group col-md-3"></div>
-                                        <div className="form-group col-md-2">
-                                            <label>Payment:</label>
-                                            <input
-                                                type="text" className="form-control"
-                                                value={Pay}
-                                                onChange={(e) => setPay(e.target.value)}
-                                            />
+                                        <div className="row form-group">
+                                            <div className="form-group col-md-4"></div>
+                                            <div className="form-group col-md-3"></div>
+                                            <div className="form-group col-md-2">
+                                                <label>Payment:</label>
+                                                <input
+                                                    type="text" className="form-control"
+                                                    value={Pay}
+                                                    onChange={(e) => setPay(e.target.value)}
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="row form-group">
-                                        <div className="form-group col-md-4"></div>
-                                        <div className="form-group col-md-3"></div>
-                                        <div className="form-group col-md-2">
-                                            <label>Final Debt:</label>
-                                            <input
-                                                type="text" className="form-control"
-                                                value={(Debt+total)-Pay} disabled
-                                            />
+                                        <div className="row form-group">
+                                            <div className="form-group col-md-4"></div>
+                                            <div className="form-group col-md-3"></div>
+                                            <div className="form-group col-md-2">
+                                                <label>Final Debt:</label>
+                                                <input
+                                                    type="text" className="form-control"
+                                                    value={(Debt + total) - Pay} disabled
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
+                                        <div className="border-b-4 border-red-500 pb-2">
+                                           <h5>Products Expenses</h5>
+                                        </div>
+                                        <div className="row form-group">
+                                            <div className="form-group col-md-4"></div>
+                                            <div className="form-group col-md-3"><label>Labour Cost:</label>
+                                                <input
+                                                    type="text" className="form-control"
+                                                    value={LabourCost}
+                                                    onChange={(e) => setLabourCost(e.target.value)}
 
-                                    <div className="row form-group">
-                                        <div className="col-sm-4"></div>
-                                        <div className="col-sm-4">
-                                            <button type="submit" disabled={isSubmitting} className="btn btn-success"> {isSubmitting? "Processing..." : "Purchasing"} </button>
+                                                /></div>
+                                            <div className="form-group col-md-2">
+                                                <label>Transportation Cost:</label>
+                                                <input
+                                                    type="text" className="form-control"
+                                                    value={TransportCost}
+                                                    onChange={(e) => setTransportCost(e.target.value)}
+
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="col-sm-4"></div>
-                                    </div>
-                                </form>
+
+                                        <div className="row form-group">
+                                            <div className="col-sm-4"></div>
+                                            <div className="col-sm-4">
+                                                <button type="submit" disabled={isSubmitting}
+                                                        className="btn btn-success"> {isSubmitting ? "Processing..." : "Purchasing"} </button>
+                                            </div>
+                                            <div className="col-sm-4"></div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </div>
                 </div>
             </section>

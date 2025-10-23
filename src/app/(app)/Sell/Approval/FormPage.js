@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import { useSearchParams, useRouter } from "next/navigation";
 import axios from '@/lib/axios';
 import Select from 'react-select';
@@ -28,11 +28,13 @@ const ApprovePage = () => {
     const { data: availableUnit } = useSWR(UnitAdd,fetcher);
     const { data: availableCustomer } = useSWR(CustomerAdd,fetcher);
 
-    const customerOptions = availableCustomer?.map((customer) => ({
-        value: customer.c_id,
-        label:`${customer.name} - ${customer.address}`,
-        Due: parseInt(customer.due),
-    })) || [];
+    const customerOptions = useMemo(() => {
+        return availableCustomer?.map((customer) => ({
+            value: customer.c_id,
+            label: `${customer.name} - ${customer.address}`,
+            Due: parseInt(customer.due),
+        })) || [];
+    }, [availableCustomer]);
     // Load memo
     useEffect(() => {
         if (!MemoID) return;
@@ -63,7 +65,7 @@ const ApprovePage = () => {
                 }))
             });
         });
-    }, [MemoID]);
+    }, [MemoID,apiAdd,router]);
 
     useEffect(() => {
         if (!formData?.customerID || !customerOptions.length) return;
@@ -105,7 +107,28 @@ const ApprovePage = () => {
             sell_dtls: updated
         }));
     };
-
+// Add this function inside your component
+    const handleDelete = async (e) => {
+        e.preventDefault();
+        if (isSubmitting) return;
+        const confirmed = window.confirm("Are you sure you want to delete (reject) this memo?");
+        if (!confirmed) return;
+        try {
+            setIsSubmitting(true);
+            const response = await axios.post(`${apiAdd}/RejectMemo/${MemoID}`);
+            if (response.status >= 200 && response.status < 300) {
+                alert("Memo rejected successfully.");
+                router.push('PendingList');
+            } else {
+                alert("Failed to reject memo.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Failed to reject memo.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (isSubmitting) {
@@ -276,13 +299,19 @@ const ApprovePage = () => {
                             </div>
                         </div>
 
-                        <div className="row mt-4">
-                            <div className="col-md-6 offset-md-3">
+                        <div className="row mt-4 mb-4">
+                            <div className="col-md-2 offset-md-3">
                                 <button type="submit" className="btn btn-success btn-block" disabled={isSubmitting}>
                                     {isSubmitting ? "Processing..." : "Approve Memo"}
                                 </button>
                             </div>
+                            <div className="col-md-2 offset-md-3">
+                                <button type="submit" className="btn btn-danger btn-block" disabled={isSubmitting}  onClick={handleDelete}>
+                                    {isSubmitting ? "Processing..." : "Delete Memo"}
+                                </button>
+                            </div>
                         </div>
+
                     </form>
                 </div>
             </section>

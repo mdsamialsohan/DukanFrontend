@@ -49,14 +49,17 @@ function Pending() {
         {
             name: 'Actions',
             cell: (row) => (
-                <Link
+                <>  <Link
                     href={`/Sell/Approval?MemoId=${row.SellMemoID}`}
-                    className="btn btn-sm btn-primary"
+                    className="btn btn-success btn-sm"
                 >
-                    Approve
+                    View
                 </Link>
+                </>
+
             ),
         },
+
     ];
     const customFilterText = (rows, filter) => {
         return rows.filter((row) =>

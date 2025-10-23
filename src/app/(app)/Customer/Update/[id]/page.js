@@ -46,6 +46,7 @@ const UpdateCustomer = () => {
                 mobile,
                 address,
                 national_id,
+                due
             });
 
             if (response.status === 200) {
@@ -97,6 +98,15 @@ const UpdateCustomer = () => {
                                             <div className="form-group col-md-4">
                                                 <label>Mobile:</label>
                                                 <input type="text" className="form-control" value={mobile} onChange={(e) => setMobile(e.target.value)} />
+
+                                            </div>
+                                            <div className="form-group col-md-4"></div>
+                                            <div className="form-group col-md-4"></div>
+                                        </div>
+                                        <div className="row form-group">
+                                            <div className="form-group col-md-4">
+                                                <label>Due:</label>
+                                                <input type="text" className="form-control" value={due} onChange={(e) => setDue(e.target.value)} />
 
                                             </div>
                                             <div className="form-group col-md-4"></div>
